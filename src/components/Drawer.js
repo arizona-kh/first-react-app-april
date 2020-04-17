@@ -16,7 +16,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 
 const drawerWidth = '100%';
@@ -39,47 +39,55 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    hide: {
+      display: 'none',
+    },
+    drawer: {
+      [theme.breakpoints.up('sm')]: {
+        width: drawerWidth,
+        flexShrink: 0,
+      }
   },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
+    drawerPaper: {
       width: drawerWidth,
-      flexShrink: 0,
-    }
-},
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  list : {
-    width : 200,
-  },
-  padding : {
-    paddingRight : 30,
-    cursor : "pointer",
-  },
+    },
+    drawerHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: theme.spacing(0, 1),
+      ...theme.mixins.toolbar,
+      justifyContent: 'flex-end',
+    },
+    list : {
+      width : 200,
+    },
+    padding : {
+      paddingRight : 30,
+      cursor : "pointer",
+    },
 
-  sideBarIcon : {
-    padding : 0,
-    color : "white",
-    cursor : "pointer",
-  },
+    sideBarIcon : {
+      padding : 0,
+      color : "white",
+      cursor : "pointer",
+    },
 
-  logButtons : {
-    marginLeft: "auto", 
-    marginRight: "auto", 
-    marginTop: "auto", 
-    marginBottom: "1rem",
+    loginLinks : {
+      marginLeft: "auto", 
+      marginRight: "auto", 
+      marginTop: "auto", 
+      marginBottom: "1rem",
+      textDecoration: "none",
+      padding: "8px 8px",
+    },
+    link: {
+      textDecoration: 'none',
+      padding: '8px',
+      fontSize: '1rem',
+      fontWeight: 400,
   }
 }));
 
@@ -154,9 +162,9 @@ export default function PersistentDrawerLeft() {
         </List>
 
         <Divider />
-        <div className={classes.logButtons}>
-        <Button color="inherit">Login</Button>
-        <Button color="inherit">{"Sign Up"}</Button>
+        <div className={classes.loginLinks}>
+          <Link className={classes.link} to={'/login'}> Log In</Link>
+          <Link className={classes.link} to={'/signUp'}> Sign Up</Link>
         </div>
 
       </Drawer>

@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import NavBar from './components/NavBar'
-import Drawer from './components/Drawer'
 
 
 class App extends Component {
+ 
   render() {
-    return (
-      <div>
-        <NavBar />
-      </div>
+    return (      
+        <Fragment>
+          <NavBar />
+        </Fragment>
     )
   }
 }

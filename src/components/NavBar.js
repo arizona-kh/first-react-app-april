@@ -5,16 +5,22 @@ import {
   withStyles
 } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import Drawer from './Drawer';
-import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 
 const styleSheet = {
     root: {
         width: '100%',
     },
+    link: {
+        color: 'white',
+        textDecoration: 'none',
+        padding: '8px',
+        fontSize: '1rem',
+        fontWeight: 400,
+    }
 }
 const flexContainer = {
     display: 'flex',
@@ -57,20 +63,17 @@ class NavBar extends Component{
     return (
       <AppBar>
         <Toolbar>
-
         <List style={flexContainer}>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text} style={{width: "auto"}}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem style={{width: "auto"}}>
+            <Link style={styleSheet.link} to={'/'}> Home</Link>
+            <Link style={styleSheet.link} to={'/blog'}> Blog</Link>
+            <Link style={styleSheet.link} to={'/features'}> Features</Link>
+          </ListItem>
         </List>
-        
         <div style={{marginLeft: "auto"}}>
-        <Button color="inherit">Login</Button>
-        <Button color="inherit">{"Sign Up"}</Button>
+          <Link style={styleSheet.link} to={'/login'}> Log In</Link>
+          <Link style={styleSheet.link} to={'/signUp'}> Sign Up</Link>
         </div>
-
         </Toolbar>
       </AppBar>
     )
