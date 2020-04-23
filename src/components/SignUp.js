@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { 
   makeStyles,
@@ -14,7 +14,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
-import { TextField} from 'final-form-material-ui';
+import { TextField } from 'final-form-material-ui';
 
 
 
@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignUp() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
   const classes = useStyles();
 
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -98,106 +103,114 @@ export default function SignUp() {
         <Form 
           onSubmit={onSubmit}
           validate={validate}
-          render={({ handleSubmit, submitting, pristine, values }) => (
-          <form 
-          className={classes.form} 
-          onSubmit={handleSubmit}
-          >
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Field
-                component={TextField}
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                placeholder="First Name"
-                autoFocus
-              />
+          render={({ handleSubmit, invalid, pristine, values }) => (
+            <form 
+            className={classes.form} 
+            onSubmit={handleSubmit}
+            >
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Field
+                  component={TextField}
+                  value={firstName}
+                  name="firstName"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  placeholder="First Name"
+                  autoFocus
+                  onChange={e => setFirstName(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Field
+                  component={TextField}
+                  value={lastName}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  placeholder="Last Name"
+                  name="lastName"
+                  onChange={e => setLastName(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  value={email}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  placeholder="example@mail.com"
+                  name="email"
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  value={password}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  label="I want to receive inspiration, marketing promotions and updates via email."
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                component={TextField}
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                placeholder="Last Name"
-                name="lastName"
-              />
+            <Grid 
+              container 
+              spacing={2}
+              alignItems="center">
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="default"
+                    className={classes.submit}
+                    href="/"
+                  >
+                    Back Home
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    disabled={invalid || pristine }
+                  >
+                    Sign Up
+                  </Button>
+                </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Field
-                component={TextField}
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                placeholder="example@mail.com"
-                name="email"
-              />
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link href="/signin" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Field
-                component={TextField}
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
-          </Grid>
-          <Grid 
-            container 
-            spacing={2}
-            alignItems="center">
-          <Grid item xs={6}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="default"
-            className={classes.submit}
-            href="/"
-          >
-            Back Home
-          </Button>
-          </Grid>
-          <Grid item xs={6}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            disabled={submitting || pristine}
-          >
-            Sign Up
-          </Button>
-          </Grid>
-          </Grid>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/signin" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-          <pre>{JSON.stringify(values, 0, 2)}</pre>
-        </form>
+            <pre>{JSON.stringify(values, 0, 2)}</pre>
+          </form>
           )}
         />
       </div>

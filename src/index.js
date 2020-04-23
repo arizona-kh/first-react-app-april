@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import LogIn  from './components/LogIn';
 import SignUp  from './components/SignUp';
-import Notfound from './components/404'
+import Notfound from './components/404';
 
 
 const routing = (
