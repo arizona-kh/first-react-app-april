@@ -15,7 +15,8 @@ import {
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
 import { TextField } from 'final-form-material-ui';
-import zxcvbn from 'zxcvbn';
+import ReactPasswordStrength from 'react-password-strength';
+
 
 
 function Copyright() {
@@ -57,9 +58,6 @@ export default function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [evaluation, setEvaluation] = useState(zxcvbn(password));
-  const [score, setScore] = useState(evaluation.score);
-  const [suggestions, setSuggestions] = useState(evaluation.feedback.suggestions);
   
   const classes = useStyles();
 
@@ -156,8 +154,10 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Field
+                <ReactPasswordStrength
                   component={TextField}
+                  minLength={6}
+                  minScore={2}
                   value={password}
                   variant="outlined"
                   required
@@ -166,11 +166,10 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  onChange={e => {setPassword(e.target.value); setScore({score: e.target.value}); setSuggestions(e.target.value)}}
+                  scoreWords={['weak', 'okay', 'good', 'strong', 'super strong']}
+                  onChange={e => setPassword(e.target.value)}
                 />
-                <p>{score}</p>
-                {suggestions}
-              </Grid>
+                </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
