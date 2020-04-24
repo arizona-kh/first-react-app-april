@@ -5,8 +5,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import LogIn  from './components/LogIn';
-import SignUp  from './components/SignUp';
+import SignUp  from './components/SignUpForm/SignUp';
 import Notfound from './components/404';
+
 
 
 const routing = (

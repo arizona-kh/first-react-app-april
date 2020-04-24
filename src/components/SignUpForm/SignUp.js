@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
 import { TextField } from 'final-form-material-ui';
-
+import zxcvbn from 'zxcvbn';
 
 
 function Copyright() {
@@ -57,6 +57,9 @@ export default function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [evaluation, setEvaluation] = useState(zxcvbn(password));
+  const [score, setScore] = useState(evaluation.score);
+  const [suggestions, setSuggestions] = useState(evaluation.feedback.suggestions);
   
   const classes = useStyles();
 
@@ -71,13 +74,13 @@ export default function SignUp() {
     const errors = {};
     if (!values.firstName) {
       errors.firstName = 'Required';
-    } else if (values.firstName.length <= 5) {
-      errors.firstName = 'First Name must be at least 6 charcters long';
+    } else if (values.firstName.length <= 3) {
+      errors.firstName = 'First Name must be at least 3 charcters long';
     }
     if (!values.lastName) {
       errors.lastName = 'Required';
-    } else if (values.lastName.length <= 5) {
-      errors.lastName = 'Last Name must be at least 6 charcters long';
+    } else if (values.lastName.length <= 3) {
+      errors.lastName = 'Last Name must be at least 3 charcters long';
     }
     if (!values.email) {
       errors.email = 'Required';
@@ -163,8 +166,10 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={e => {setPassword(e.target.value); setScore({score: e.target.value}); setSuggestions(e.target.value)}}
                 />
+                <p>{score}</p>
+                {suggestions}
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
