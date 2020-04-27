@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
 import { TextField } from 'final-form-material-ui';
-import ReactPasswordStrength from 'react-password-strength';
 import PasswordField from './Password.js'
 
 
