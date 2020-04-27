@@ -16,6 +16,7 @@ import {
 import { Form, Field } from 'react-final-form';
 import { TextField } from 'final-form-material-ui';
 import ReactPasswordStrength from 'react-password-strength';
+import PasswordField from './Password.js'
 
 
 
@@ -153,10 +154,10 @@ export default function SignUp() {
                   onChange={e => setEmail(e.target.value)}
                 />
               </Grid>
-              <Grid item xs={12}>
+{/*               <Grid item xs={12}>
                 <ReactPasswordStrength
                   component={TextField}
-                  minLength={6}
+                  minLength={2}
                   minScore={2}
                   value={password}
                   variant="outlined"
@@ -166,9 +167,18 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  scoreWords={['weak', 'okay', 'good', 'strong', 'super strong']}
+                  scoreWords={['weak', 'good', 'good', 'strong', 'strong']}
                   onChange={e => setPassword(e.target.value)}
                 />
+                </Grid> */}
+                <Grid item xs={12}>
+                  <PasswordField 
+                    value={password}
+                    onStateChanged={setPassword} 
+                    thresholdLength={7} 
+                    minStrength={3} 
+                    required
+                  />
                 </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
