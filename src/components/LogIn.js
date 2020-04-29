@@ -5,16 +5,18 @@ import {
   CssBaseline,
   FormControlLabel,
   Checkbox,
-  Link,
+  // Link,
   Grid,
   Box,
   Typography,
   Container
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { TextField } from 'final-form-material-ui'; // note, if using material ui textfield, value won't be read
 import { makeStyles } from '@material-ui/core/styles';
 import { Form, Field } from 'react-final-form';
+import routes from '../routes';
 
 
 
@@ -131,11 +133,11 @@ export default function LogIn () {
                 <Grid container spacing={1}>
                 <Grid item xs={6}>
                     <Button
-                      type="submit"
+                      component={Link}
                       fullWidth
                       variant="contained"
                       className={classes.submit}
-                      href="/"
+                      to={routes.home}
                       >
                         Back Home
                     </Button>
@@ -160,7 +162,9 @@ export default function LogIn () {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link 
+                      to={routes.signup} 
+                      variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>

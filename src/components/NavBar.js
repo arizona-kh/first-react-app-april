@@ -65,7 +65,7 @@ class NavBar extends Component{
         <Toolbar>
         <List style={flexContainer}>
           <ListItem style={{width: "auto"}}>
-            <Link style={styleSheet.link} to={'/'}> Home</Link>
+            <Link style={styleSheet.link} to={'/home'}> Home</Link>
             <Link style={styleSheet.link} to={'/blog'}> Blog</Link>
             <Link style={styleSheet.link} to={'/features'}> Features</Link>
           </ListItem>
