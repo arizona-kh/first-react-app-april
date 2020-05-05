@@ -1,11 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import NavBar from './components/NavBar'
-
+import React, { Component, Fragment } from 'react';
+import NavBar from './components/NavBar';
 
 class App extends Component {
  
   render() {
-    return (      
+    return (
         <Fragment>
           <NavBar />
         </Fragment>
