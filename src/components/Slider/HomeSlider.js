@@ -4,9 +4,21 @@ import CustomSlide from "./CustomSlide";
 
 
 const images = [
-  { src: "/images/marvel.jpg" },
-  { src: "/images/2081.jpg" },
-  { src: "/images/8439.jpg" },
+  { 
+    src: "/images/marvel.jpg", 
+    alt:"Marvel", 
+    rating: true
+   },
+  { 
+    src: "/images/2081.jpg", 
+    alt:"rolique",
+    rating: null
+   },
+  { 
+    src: "/images/8439.jpg", 
+    alt: "team" ,
+    rating: true
+   },
 ];
 
 
@@ -52,7 +64,7 @@ export default class HomeSlider extends Component {
       <Fragment>
         <Slider {...settings}>
           {images.map((img, index) => (
-            <CustomSlide key={index} alt={""} src={img.src}/>
+            <CustomSlide key={index} alt={img.alt} src={img.src} rating={img.rating}/>
           ))}
         </Slider>
       </Fragment>
