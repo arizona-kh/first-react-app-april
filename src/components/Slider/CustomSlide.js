@@ -8,6 +8,7 @@ export default class CustomSlide extends Component {
               margin: "auto",
               height: "90vh",
               width: "100%",
+              position: "relative"
             },
             slideCaption: {
                 position: "absolute",
@@ -19,13 +20,13 @@ export default class CustomSlide extends Component {
                 color: "#fff"
             }
           };
-        const { ...props } = this.props;
+        const { alt, src, rating } = this.props;
         
             return (
-                <div className="slide">
-                    <img alt={""} {...props} style={styles.slide} />
+                <div style={styles.slide}>
+                    <img alt={alt} src={src} style={styles.slide} />
                     <div style={styles.slideCaption}>
-                        {(this.props.rating === true) ? <SimpleRating /> : null} 
+                        { rating === true && <SimpleRating /> } 
                     </div>
                 </div>
             )

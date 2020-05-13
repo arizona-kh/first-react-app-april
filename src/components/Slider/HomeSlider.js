@@ -12,7 +12,7 @@ const images = [
   { 
     src: "/images/2081.jpg", 
     alt:"rolique",
-    rating: null
+    rating: false
    },
   { 
     src: "/images/8439.jpg", 
