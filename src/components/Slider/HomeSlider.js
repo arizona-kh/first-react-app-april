@@ -12,7 +12,8 @@ const images = [
   { 
     src: "/images/2081.jpg", 
     alt:"rolique",
-    rating: false
+    rating: false, 
+    form: true
    },
   { 
     src: "/images/8439.jpg", 
@@ -64,7 +65,7 @@ export default class HomeSlider extends Component {
       <Fragment>
         <Slider {...settings}>
           {images.map((img, index) => (
-            <CustomSlide key={index} alt={img.alt} src={img.src} rating={img.rating}/>
+            <CustomSlide key={index} alt={img.alt} src={img.src} rating={img.rating} /> 
           ))}
         </Slider>
       </Fragment>
