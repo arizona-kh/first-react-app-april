@@ -8,6 +8,7 @@ import {
     Typography,
     Card
 } from '@material-ui/core';
+import { FacebookShareButton, FacebookIcon } from 'react-share';
 
 const useStyles = makeStyles({
   root: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles({
 
 export default function ImgMediaCard(props) {
   const classes = useStyles();
+  let url = 'https://giphy.com/videos/afv-americas-funniest-home-videos-look-out-below-mFZKg6u6DBz1CrEHxI';
 
   return (
     <Card className={classes.root}>
@@ -32,9 +34,9 @@ export default function ImgMediaCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
+        <FacebookShareButton url={url}>
+          <FacebookIcon size={32} round={true} />
+        </FacebookShareButton>
       </CardActions>
     </Card>
   );

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Slider from "react-slick";
 import CustomSlide from "./CustomSlide";
+import styled from 'styled-components';
 
 
 const images = [
@@ -28,7 +29,7 @@ function NextArrow(props) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", right: "25px", fontSize: "40px" }}
+      style={{ ...style, display: "block", right: "25px", zIndex: 1 }}
       onClick={onClick}
     />
   );
@@ -39,12 +40,18 @@ function PrevArrow(props) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", left: "25px", zIndex: 1, fontSize: "40px" }}
+      style={{ ...style, display: "block", left: "25px", zIndex: 1 }}
       onClick={onClick}
     />
   );
 }
 
+const StyledSlider = styled(Slider)`
+  .slick-next:before, .slick-prev:before {
+    font-size: 2rem;
+    color: #3f51b5;
+    }
+  `
 
 export default class HomeSlider extends Component {
   render() {
@@ -63,11 +70,11 @@ export default class HomeSlider extends Component {
 
     return (
       <Fragment>
-        <Slider {...settings}>
+        <StyledSlider {...settings}>
           {images.map((img, index) => (
             <CustomSlide key={index} alt={img.alt} src={img.src} rating={img.rating} /> 
           ))}
-        </Slider>
+        </StyledSlider>
       </Fragment>
     );
   }
