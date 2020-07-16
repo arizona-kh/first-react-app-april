@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   AppBar, Toolbar,
@@ -61,21 +61,25 @@ class NavBar extends Component{
   //Larger Screens
   destroyDrawer(){
     return (
-      <AppBar>
-        <Toolbar>
-        <List style={flexContainer}>
-          <ListItem style={{width: "auto"}}>
-            <Link style={styleSheet.link} to={'/home'}> Home</Link>
-            <Link style={styleSheet.link} to={'/blog'}> Blog</Link>
-            <Link style={styleSheet.link} to={'/features'}> Features</Link>
-          </ListItem>
-        </List>
-        <div style={{marginLeft: "auto"}}>
-          <Link style={styleSheet.link} to={'/login'}> Log In</Link>
-          <Link style={styleSheet.link} to={'/signUp'}> Sign Up</Link>
-        </div>
-        </Toolbar>
-      </AppBar>
+      <Fragment>
+        <AppBar>
+          <Toolbar>
+          <List style={flexContainer}>
+            <ListItem style={{width: "auto"}}>
+              <Link style={styleSheet.link} to={'/home'}> Home</Link>
+              <Link style={styleSheet.link} to={'/blog'}> Blog</Link>
+              <Link style={styleSheet.link} to={'/features'}> Features</Link>
+            </ListItem>
+          </List>
+          <div style={{marginLeft: "auto"}}>
+            <Link style={styleSheet.link} to={'/login'}> Log In</Link>
+            <Link style={styleSheet.link} to={'/signUp'}> Sign Up</Link>
+          </div>
+          </Toolbar>
+        </AppBar>
+        <Toolbar /> 
+        {/* adding an empty toolbar fixes the oerlapping content and appbar */}
+      </Fragment>
     )
   }
 
