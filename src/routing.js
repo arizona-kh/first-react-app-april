@@ -7,9 +7,12 @@ import SignUp  from './components/SignUp';
 import Notfound from './components/404';
 import Home from './components/Home';
 import routes from './routes';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 
 const routing = (
+  <Provider store={store}>
     <Router >
       <Switch>
         <Route path='/' exact component={App} />
@@ -19,6 +22,7 @@ const routing = (
           <Route component={Notfound} />
       </Switch>
     </Router>
+    </Provider>  
   )
   
   export default routing;
