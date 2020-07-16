@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LogIn () {
   const classes = useStyles();
   
-
+  //email & pass are taken from values.email
   const onSubmit = async({ email, password }) => {
     auth.signInWithEmailAndPassword(email, password)
       .then(user => console.log(user))
@@ -64,6 +64,7 @@ export default function LogIn () {
     {
       size: 12,
       field: (
+        // final form field takes filed name as the value.field-name, thus there is no need in specifying value={}; same with onChange
         <TextField
           variant="outlined"
           margin="normal"
@@ -122,7 +123,7 @@ export default function LogIn () {
               <form 
               className={classes.form} 
               noValidate
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit} // submits form
               >
               {formFields.map((item, idx) => (
                 <Grid item xs={item.size} key={idx}>
@@ -149,6 +150,7 @@ export default function LogIn () {
                     color="primary"
                     className={classes.submit}
                     disabled={pristine || invalid}
+                    //no need in additional submit call
                   >
                     Sign In
                   </Button>
