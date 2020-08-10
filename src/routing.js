@@ -3,7 +3,7 @@ import './index.css';
 import App from './App';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import LogIn  from './components/LogIn';
-import SignUp  from './components/SignUp';
+import SignUp  from './components/SignUp/SignUp';
 import Notfound from './components/404';
 import Home from './components/Home';
 import routes from './routes';

@@ -14,8 +14,14 @@ import {
   Typography
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
-import { TextField } from 'final-form-material-ui';
-import PasswordField from './Password.js'
+import { TextField, Input } from 'final-form-material-ui';
+//import PasswordField from './Password.js';
+//import ReactPasswordStrength from 'react-password-strength';
+import { auth } from 'firebase';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 
 
@@ -54,18 +60,29 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignUp() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
   const classes = useStyles();
 
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+  const [value, setValues] = React.useState({ //value NOT values
+    password: '',
+    showPassword: false,
+  });
 
-  const onSubmit = async values => {
-    await sleep(300)
-    window.alert(JSON.stringify(values, 0, 2))
+  const handleChange = (prop) => (event) => {
+    setValues({ ...value, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...value, showPassword: !value.showPassword });
+  };
+
+  const onSubmit = async({email, password, passwordConfirmation}) => {
+    if (password === passwordConfirmation) {
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(user => console.log(user))
+        .catch(err => console.log(err));   
+    } else {
+      alert('Passwords do not match');
+    }
   };
 
   const validate = values => {
@@ -113,7 +130,6 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <Field
                   component={TextField}
-                  value={firstName}
                   name="firstName"
                   variant="outlined"
                   required
@@ -122,13 +138,11 @@ export default function SignUp() {
                   label="First Name"
                   placeholder="First Name"
                   autoFocus
-                  onChange={e => setFirstName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Field
                   component={TextField}
-                  value={lastName}
                   variant="outlined"
                   required
                   fullWidth
@@ -136,13 +150,11 @@ export default function SignUp() {
                   label="Last Name"
                   placeholder="Last Name"
                   name="lastName"
-                  onChange={e => setLastName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
                 <Field
                   component={TextField}
-                  value={email}
                   variant="outlined"
                   required
                   fullWidth
@@ -150,10 +162,66 @@ export default function SignUp() {
                   label="Email Address"
                   placeholder="example@mail.com"
                   name="email"
-                  onChange={e => setEmail(e.target.value)}
                 />
               </Grid>
-{/*               <Grid item xs={12}>
+              <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  value={value.password}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type={value.showPassword ? 'text' : 'password'}
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={handleChange('password')}
+                  InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {value.showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="passwordConfirmation"
+                  label="Confirm Password"
+                  id="passwordConfirmation"
+                  value={value.password}
+                  type={value.showPassword ? 'text' : 'password'}
+                  onChange={handleChange('password')}
+                  InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {value.showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                />
+            </Grid>
+{/* password strength meter inside the Password field
+
+                <Grid item xs={12}>
                 <ReactPasswordStrength
                   component={TextField}
                   minLength={2}
@@ -169,8 +237,10 @@ export default function SignUp() {
                   scoreWords={['weak', 'good', 'good', 'strong', 'strong']}
                   onChange={e => setPassword(e.target.value)}
                 />
-                </Grid> */}
-                <Grid item xs={12}>
+                </Grid> */} 
+
+{/* password strength meter outside the Password field
+              <Grid item xs={12}>
                   <PasswordField 
                     value={password}
                     onStateChanged={setPassword} 
@@ -178,7 +248,7 @@ export default function SignUp() {
                     minStrength={3} 
                     required
                   />
-                </Grid>
+                </Grid> */}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
