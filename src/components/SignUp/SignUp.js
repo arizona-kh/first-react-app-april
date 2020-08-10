@@ -17,7 +17,7 @@ import { Form, Field } from 'react-final-form';
 import { TextField } from 'final-form-material-ui';
 //import PasswordField from './Password.js';
 //import ReactPasswordStrength from 'react-password-strength';
-import { auth } from 'firebase';
+import { auth } from '../../configs/firebase.config';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
@@ -76,7 +76,8 @@ export default function SignUp() {
 
   const onSubmit = async({email, password, passwordConfirmation}) => {
     if (password === passwordConfirmation) {
-      auth.createUserWithEmailAndPassword(email, password)
+      auth
+      .createUserWithEmailAndPassword(email, password)
         .then(user => console.log(user))
         .catch(err => console.log(err));   
     } else {
