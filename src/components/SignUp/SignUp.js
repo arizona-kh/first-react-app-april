@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { 
   makeStyles,
@@ -14,14 +14,13 @@ import {
   Typography
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
-import { TextField, Input } from 'final-form-material-ui';
+import { TextField } from 'final-form-material-ui';
 //import PasswordField from './Password.js';
 //import ReactPasswordStrength from 'react-password-strength';
 import { auth } from 'firebase';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 
 
