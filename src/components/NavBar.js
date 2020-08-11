@@ -1,101 +1,71 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import {
-  AppBar, Toolbar,
-  withStyles
-} from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Drawer from './Drawer';
+
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import { auth } from '../configs/firebase.config';
+import { connect } from 'react-redux';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
-const styleSheet = {
-    root: {
-        width: '100%',
-    },
-    link: {
-        color: 'white',
-        textDecoration: 'none',
-        padding: '8px',
-        fontSize: '1rem',
-        fontWeight: 400,
-    }
-}
-const flexContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-  };
-  
+const NavBar = ({currentUser}) => {
+  const classes = useStyles();
 
-class NavBar extends Component{
-  constructor(props){
-    super(props);
-    this.state = {drawerActivate:false, drawer:false};
-    this.createDrawer = this.createDrawer.bind(this);
-    this.destroyDrawer = this.destroyDrawer.bind(this);
-  }
-
-  componentWillMount(){
-    if(window.innerWidth <= 600){
-      this.setState({drawerActivate:true});
-    }
-
-    window.addEventListener('resize',()=>{
-      if(window.innerWidth <= 600){
-        this.setState({drawerActivate:true});
-      }
-      else{
-        this.setState({drawerActivate:false})
-      }
-    });
-  }
-
-  //Small Screens
-  createDrawer(){ 
-      return(
-        <Drawer />
-      )
-   }
-
-  //Larger Screens
-  destroyDrawer(){
-    return (
-      <Fragment>
-        <AppBar>
-          <Toolbar>
-          <List style={flexContainer}>
-            <ListItem style={{width: "auto"}}>
-              <Link style={styleSheet.link} to={'/home'}> Home</Link>
-              <Link style={styleSheet.link} to={'/blog'}> Blog</Link>
-              <Link style={styleSheet.link} to={'/features'}> Features</Link>
-            </ListItem>
-          </List>
-          <div style={{marginLeft: "auto"}}>
-            <Link style={styleSheet.link} to={'/login'}> Log In</Link>
-            <Link style={styleSheet.link} to={'/signUp'}> Sign Up</Link>
-          </div>
-          </Toolbar>
-        </AppBar>
-        <Toolbar /> 
-        {/* adding an empty toolbar fixes the oerlapping content and appbar */}
-      </Fragment>
-    )
-  }
-
-  render(){
-    return(
-      <div>
-        {this.state.drawerActivate ? this.createDrawer() : this.destroyDrawer()}
-      </div>
-    );
-  }
-}
-
-NavBar.propTypes = {
-  classes : PropTypes.object.isRequired
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Button 
+            color="inherit"
+            component={Link}
+            to={'/home'}
+          >
+          Home
+          </Button>
+          <Button 
+            color="inherit"
+            component={Link}
+            to={'/login'}
+          >
+          Login
+          </Button>
+          <Button 
+            color="inherit"
+            component={Link}
+            to={'/signUp'}
+          >
+          Sign Up
+          </Button>
+          { currentUser && currentUser ? (
+          <Button 
+            color="inherit"
+            component={Link}
+            onClick={() =>auth.signOut()}
+          >
+          Sign Out
+          </Button>
+          ) : null }
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 };
 
+const mapStateToProps = (state) => ({
+  currentUser: state.auth.currentUser
+})  
 
-
-export default withStyles(styleSheet)(NavBar);
+export default connect( mapStateToProps, null )(NavBar);

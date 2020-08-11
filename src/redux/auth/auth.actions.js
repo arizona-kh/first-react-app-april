@@ -12,3 +12,8 @@ export const setCurrentUser = ( user ) => {
         payload: user // additional information about what happened
     };
 };
+
+export const clearCurrentUser = () => ({ 
+    type: authTypes.CLEAR_CURRENT_USER,
+    
+})

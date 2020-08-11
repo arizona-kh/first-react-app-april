@@ -19,6 +19,11 @@ const authReducer = ( state = initialState, action ) => {
                 // update currentUser without mutating original initialState obj
                 currentUser: action.payload
             };
+        case authTypes.CLEAR_CURRENT_USER:
+            return {
+                ...state,
+                currentUser: null
+            };    
             // otherwise return the existing state unchanged
             default:
                 return state;
