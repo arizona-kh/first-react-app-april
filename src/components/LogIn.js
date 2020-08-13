@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Avatar, 
   Button,
   CssBaseline,
-  FormControlLabel,
-  Checkbox,
-  // Link,
   Grid,
   Box,
   Typography,
@@ -13,57 +10,41 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { TextField } from 'final-form-material-ui'; // note, if using material ui textfield, value won't be read
+import { TextField, Checkboxes } from 'mui-rff';
 import { makeStyles } from '@material-ui/core/styles';
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import routes from '../routes';
+import { auth } from '../configs/firebase.config';
 
 
-
-function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
-          Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
-  
-  const useStyles = makeStyles((theme) => ({
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-  }));  
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));  
 
 export default function LogIn () {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const classes = useStyles();
   
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-  const onSubmit = async values => {
-    await sleep(300)
-    window.alert(JSON.stringify(values, 0, 2))
+  //email & pass are taken from values.email
+  const onSubmit = async({ email, password }) => {
+    auth.signInWithEmailAndPassword(email, password)
+      .then(user => console.log(user))
+      .catch(err => console.log(err));
   };
   
   const validate = values => {
@@ -79,6 +60,52 @@ export default function LogIn () {
     return errors;
   };
 
+  const formFields = [
+    {
+      size: 12,
+      field: (
+        // final form field takes filed name as the value.field-name, thus there is no need in specifying value={}; same with onChange
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+      />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <Checkboxes
+          name="remember"
+          formControlProps={{ margin: 'none' }}
+          data={{ label: 'Remember me', value: false }}
+        />
+      ),
+    }
+  ];
+
     return (
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -92,72 +119,46 @@ export default function LogIn () {
             <Form
               onSubmit={onSubmit}
               validate={validate}
-              render={({ handleSubmit, invalid, pristine, values }) => (
+              render={({ handleSubmit, form, submitting, pristine, invalid }) => (
               <form 
               className={classes.form} 
               noValidate
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit} // submits form
               >
-                <Field
-                  component={TextField}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  value={email}
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  onChange={e => setEmail(e.target.value)}
-                />
-                <Field
-                  component={TextField}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  value={password}
-                  autoComplete="current-password"
-                  onChange={e => setPassword(e.target.value)}
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    <Button
-                      component={Link}
-                      fullWidth
-                      variant="contained"
-                      className={classes.submit}
-                      to={routes.home}
-                      >
-                        Back Home
-                    </Button>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                      disabled={pristine || invalid}
-                    >
-                      Sign In
-                    </Button>
-                  </Grid>
+              {formFields.map((item, idx) => (
+                <Grid item xs={item.size} key={idx}>
+                  {item.field}
                 </Grid>
+              ))}
+              <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <Link to={routes.home}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    className={classes.submit}
+                    >
+                      Back Home
+                  </Button>
+                </Link>  
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    disabled={pristine || invalid}
+                    //no need in additional submit call
+                  >
+                    Sign In
+                  </Button>
+                </Grid>
+              </Grid>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link to="" variant="body2">
                       Forgot password?
                     </Link>
                   </Grid>
@@ -169,13 +170,11 @@ export default function LogIn () {
                     </Link>
                   </Grid>
                 </Grid>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
               </form>
               )}
             />
           </div>
           <Box mt={8}>
-            <Copyright />
           </Box>
         </Container>
       );
